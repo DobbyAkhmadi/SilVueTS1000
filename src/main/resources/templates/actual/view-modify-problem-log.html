@@ -1,0 +1,77 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Modify Problem Log
+        </h3>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" action="#" th:action="@{/actual/modify-detail-problem-log}" method="post"
+              th:object="${modifyActualCommand}" novalidate>
+            <input type="hidden" th:value="${getDetailProblemLog.idActualPlan}" th:name="idActualPlan"
+                   id="idActualPlan">
+            <label>Departement</label>
+            <div class="col-8">
+                <div class="form-group">
+
+                    <select id="nameDepartement" name="idDepartement" th:name="idDepartement"
+                            class="selectpicker"
+                            data-title="Select Department"
+                            data-live-search="true">
+                        <option th:each="departement : ${departements}" th:text="${departement.nameDepartement}"
+                                th:value="${departement.idDepartement}" th:data="${departement.nameDepartement}"
+                                th:selected="${departement.nameDepartement == getDetailProblemLog?.departement?.nameDepartement}"
+                                data-tickIcon="fa-check"
+                                data-icon="fa fa-calendar-check">
+                            ...
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Name Of Department Cannot Be Empty
+                    </div>
+                </div>
+            </div>
+            <label>Problem</label>
+            <div class="col-8">
+                <div class="form-group">
+                    <select id="problemName" name="idProblem" th:name="idProblem"
+                            class="selectpicker"
+                            data-title="Select Problem"
+                            data-live-search="true">
+                        <option th:each="problem : ${problems}" th:text="${problem.problemName}"
+                                th:value="${problem.idProblem}" th:data="${problem.problemName}"
+                                th:selected="${problem.problemName == getDetailProblemLog?.problem?.problemName}"
+                                data-tickIcon="fa-check"
+                                data-icon="fa fa-calendar-check">...
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Name Of Problem Cannot Be Empty
+                    </div>
+                </div>
+            </div>
+            <label>Description</label>
+            <div class="col-12">
+                <div class="form-group row">
+                    <textarea th:name="comments" type="text" class="form-control"
+                              th:value="${getDetailProblemLog.comments}"
+                              rows="4" cols="50"
+                              placeholder="Add a comment" required>
+                    </textarea>
+                </div>
+            </div>
+            <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> |
+                Submit
+            </button>
+        </form>
+    </div>
+</div>
+<script>
+    // Initialize the select picker.
+    $('select[name=idProblem]').selectpicker();
+    $('select[name=idDepartement]').selectpicker();
+</script>
+

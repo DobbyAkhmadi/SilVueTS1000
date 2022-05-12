@@ -1,0 +1,32 @@
+
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Export Data Master Schedule
+        </h3>
+    </div>
+</div>
+<div class="card-body">
+    <form class="needs-validation" action="#" th:action="@{/schedule/masterschedule/export-schedule}" th:object="${exportScheduleCommand}" method="post" novalidate>
+        <label>Type Schedule</label>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <select id="scheduleType" class="form-control" name="idTypeMasterPlan"
+                        th:name="idTypeMasterPlan" required>
+                    <option value="" selected>--Choose Schedule Type--</option>
+                    <option th:each="typeMasterPlan : ${typeMasterPlans}"
+                            th:value="${typeMasterPlan.idTypeMasterPlan}"
+                            th:text="${typeMasterPlan.nameTypeMasterPlan}">...</option>
+                </select>
+                <div class="invalid-feedback">
+                    Schedule Type Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+    </form>
+</div>

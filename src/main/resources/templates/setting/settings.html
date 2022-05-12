@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Silvue TS1000 Operator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/styles.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="icon" type="image/png" href="/resources/icons/len.ico"/>
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/icheck-bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/jqvmap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/adminlte.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/OverlayScrollbars.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/summernote-bs4.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/dataTables.bootstrap4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/toastr.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/images.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/loading.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/js/bootstrapselect/css/bootstrap-select.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+     </head>
+<body class="hold-transition sidebar-mini" data-new-gr-c-s-check-loaded="14.1031.0" data-gr-ext-installed style="height: auto;">
+
+<nav th:replace="fragments/navigation-bar :: navbar">
+    Ini Navbar
+</nav>
+
+<aside th:replace="fragments/brand-logo :: brand">
+</aside>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="min-height: 807px;">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Configuration</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+<!-- /. content-header -->
+<!-- Main content -->
+<!-- gambar buat loading -->
+    <img id="img" class="display"></img>
+    <img id="load" style="display:none"></img>
+
+<section class="content">
+        <div class="card card-primary card-outline">
+            <!-- header atas konten -->
+            <div class="card-header">
+            </div>
+
+            <!-- isi dari konten -->
+            <div class="card-body">
+                <!-- shorcut data -->
+                <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
+                    <li class="nav-item">
+                        <!-- sc masterplan -->
+                        <a class="nav-link active" id="custom-content-above-mp-tab" data-toggle="pill"
+                           href="#custom-content-above-mp" role="tab" aria-controls="custom-content-above-mp"
+                           aria-selected="true">TDG & Auto Update</a>
+                    </li>
+
+                    <!-- sc line & schedule -->
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-content-above-linesche-tab" data-toggle="pill"
+                           href="#custom-content-above-linesche" role="tab" aria-controls="custom-content-above-linesche"
+                           aria-selected="false">Route, Line & Schedule Type</a>
+                    </li>
+                </ul>
+
+                <!-- isi si shortcut -->
+                <div class="tab-content" id="custom-content-above-tabContent">
+                    <!-- isi masterplan -->
+                    <div class="tab-pane fade show active" id="custom-content-above-mp" role="tabpanel"
+                         aria-labelledby="custom-content-above-mp-tab">
+                        <div class="row">
+                            <!-- default TDG -->
+                            <div class="col-6">
+                                <div class="card card-primary">
+
+                                    <div class="card-header">
+                                        <h3 class="card-title">Default TDG Overview</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label>Plan Base</label>
+                                            <input type="hidden" id="planBaseTemp"  name="planBaseTemp">
+                                                <select class="form-control" id="planBase"  placeholder="Plan Base">
+                                                    <option th:each="array : ${arrayPlanBaseLists}"
+                                                            th:value="${array}"
+                                                            th:text="${array}"
+                                                            th:selected="${array==configurationLists.TdgBase}">
+                                                    </option>
+                                                </select>
+                                            <br>
+
+                                            <label>Line Type</label>
+                                                <input type="hidden" id="typeLineTemp"  name="typeLineTemp">
+                                                <select class="form-control" id="typeLine" placeholder="Select Line">
+                                                    <option th:each="line : ${lineList}"
+                                                            th:value="${line.idLine}"
+                                                            th:text="${line.nameLine}"
+                                                            th:selected="${line.idLine==configurationLists.tdgLine}">
+                                                    </option>
+                                                </select>
+                                            <br>
+
+
+                                            <label>Line Route</label>
+                                                <input type="hidden" id="typeRuteTemp" name="typeRuteTemp">
+                                                <select class="form-control" id="typeRute" placeholder="Select Rute">
+                                                    <option th:each="row : ${routeRoleList}"
+                                                            th:value="${row.idRuteRole}"
+                                                            th:text="${row.nameRoute}"
+                                                            th:selected="${row.idRuteRole==configurationLists.tdgRute}">
+                                                    </option>
+                                                </select>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>Range Data Before Point (Hours)</label>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>Range Data After Point (Hours)</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="hidden" id="rangeATemp"  name="rangeATemp">
+                                                    <select class="form-control" id="rangeA" th:name="tdgRangeALive"
+                                                            placeholder="Type Rute">
+                                                        <option th:each="array : ${arrayLists}"
+                                                                th:value="${array}"
+                                                                th:text="${array}"
+                                                                th:selected="${array==configurationLists.TdgRangeALive}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="hidden" id="rangeBTemp"  name="rangeBTemp">
+                                                    <select class="form-control" id="rangeB" th:name="tdgRangeBLive"
+                                                            placeholder="Type Rute">
+                                                        <option th:each="array : ${arrayLists}"
+                                                                th:value="${array}"
+                                                                th:text="${array}"
+                                                                th:selected="${array==configurationLists.TdgRangeBLive}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- isi schedule -->
+                            <div class="col-6">
+                                <!-- print -->
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Print Hours</h3>
+                                        </div>
+                                        <div class="card-body">
+                                                <input type="hidden" id="intervalTimeTemp"  name="intervalTimeTemp">
+                                                <div class="form-group">
+                                                    <label>Interval Time</label>
+                                                    <select class="form-control" id="intervalTime" name="intervalTime" placeholder="intervalTime">
+                                                        <option th:each="array : ${arrayHourLists}"
+                                                                th:value="${array}"
+                                                                th:text="${array}"
+                                                                th:selected="${array==printSettingLists.printHours}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                <!-- setting auto update -->
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Auto Update Actual</h3>
+                                    </div>
+                                    <div class="card-body" style="">
+
+                                                    <div class="form-group">
+                                                        <input type="hidden" id="autoEnableTemp" name="autoEnableTemp">
+                                                        <input type="checkbox" id="autoEnable"
+                                                               data-on="Enabled"
+                                                               data-off="Disabled"
+                                                               style="width: 84.8958px; height: 30.6667px;"
+                                                               th:checked="${configurationLists.autoUpdateEnable}" >
+                                                    </div>
+
+                                                    <label class="form-group mb-1">Set Time</label>
+                                                    <div class="form-group mb-1">
+                                                        <input type="time" step="1" class="form-control my-1 mr-sm-2"
+                                                               id="autoactual" required="">
+
+                                                        <button type="submit"
+                                                                class="btn btn-primary"
+                                                                id="autoactualbtn"
+                                                                name="autoactualbtn" style=""><i class="fa fa-check-circle"></i> Apply</button>
+                                                    </div>
+
+                                                <div class="form-group mb-1 " id="autoactualtime" style="">
+                                                    <label>Current Auto Update Time</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="autoactualshow"
+                                                           name="autoactualshow"
+                                                           th:value="${configurationLists.autoUpdateActual}" readonly="">
+                                                </div>
+
+                                        </div>
+
+
+
+                                </div>
+                                </div>
+
+                            <!-- Train Color -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <!-- isi schedule -->
+                                    <div class="col-12">
+                                        <div class="card card-primary">
+
+                                            <div class="card-header">
+                                                <h3 class="card-title">Train Color</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <table id="dataTrainColor" class="table table-bordered table-striped">
+                                                    <thead align="center">
+                                                    <tr>
+                                                        <th>Train</th>
+                                                        <th>Code</th>
+                                                        <th>Color</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody align="center">
+                                                    <tr th:each="colorTrainArray : ${colorTrains}">
+                                                        <td th:text="${colorTrainArray.train.noka}"></td>
+                                                        <td th:text="${colorTrainArray.colorTrain}"></td>
+                                                        <td th:bgcolor="${colorTrainArray.colorTrain}"></td>
+                                                        <td>
+                                                            <a class="edit-modal-color-train btn btn-info li-modal-color-train" data-target="#modalModifyColorTrain"
+                                                               th:href="@{/setting/settings/view-modify-color-train/{id}(id=${colorTrainArray.idColorTrain})}">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                                Modify
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                    </tfoot>
+                                                </table>
+                                                <br>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <a class="form-group">
+
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="custom-content-above-linesche" role="tabpanel"
+                         aria-labelledby="custom-content-above-linesche-tab">
+                        <div class="row">
+                            <!-- isi schedule -->
+                            <div class="col-12">
+                                <div class="card card-primary ">
+
+                                    <div class="card-header">
+                                        <h3 class="card-title">Schedule Type</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="dataSchedule_type" class="table table-bordered table-striped">
+                                            <thead align="center">
+                                            <tr>
+                                                <th>Type Schedule</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody align="center">
+                                            <tr th:each="typeSchedule : ${typeMasterPlans}">
+                                                <td th:text="${typeSchedule.nameTypeMasterPlan}"></td>
+                                                <td>
+                                                    <a class="edit-modal-schedule btn btn-info li-modal-schedule-type"
+                                                       data-target="#modalModifyScheduleType"
+                                                       th:href="@{/setting/settings/view-modify-schedule-type/{id}(id=${typeSchedule.idTypeMasterPlan})}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                        Modify
+                                                    </a>
+                                                    <a class="btn btn-danger deleteTypeSchedule" href="#"
+                                                       th:attr="deleteTypeScheduleId=${typeSchedule.idTypeMasterPlan}">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            </tfoot>
+
+                                        </table>
+                                        <br>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a class="form-group">
+                                                    <button type="button" class="btn btn-primary li-modal-add-type-schedule"
+                                                            th:href="@{/setting/settings/view-add-data-schedule-type/}"
+                                                            data-target="#modalAddtypeSchedule"
+                                                            style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-plus-circle"></i> | Add Data</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-primary ">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Table Data Route Relation</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="dataRouteRelation" class="table table-bordered table-striped">
+                                            <thead align="center">
+                                            <tr>
+                                                <th>Rute</th>
+                                                <th>List Station</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody align="center">
+                                            <tr th:each="routeData : ${settingRouteDetailList}">
+                                                <td th:text="${routeData.namaRuteRole}"></td>
+                                                <td th:text="${routeData.stations}"></td>
+                                                <td>
+                                                    <a class="btn btn-info"
+                                                       th:href="@{/setting/settings/view-modify-setting-route/{id}(id=${routeData.idRuteRole})}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                        Modify
+                                                    </a>
+                                                    <a class="btn btn-danger deleteRouteList" href="#"
+                                                       th:attr="deleteRouteDetailById=${routeData.idRuteRole}">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete All
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            </tfoot>
+                                        </table>
+                                        <br>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a class="form-group">
+                                                    <button type="button" class="btn btn-primary li-modal-add-rute-list"
+                                                            th:href="@{/setting/settings/view-add-data-route-relation/}"
+                                                            data-target="#modalAddrutelist"
+                                                            style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-plus-circle"></i> | Add Data</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-primary ">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Table Data Line Relation</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="dataLineRelation" class="table table-bordered table-striped">
+                                                <thead align="center">
+                                                <tr>
+                                                    <th>Line</th>
+                                                    <th>List Station</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody align="center">
+                                                    <tr th:each="rowLine : ${settingLineDetailList}">
+                                                        <td th:text="${rowLine.namaLine}"></td>
+                                                        <td th:text="${rowLine.stations}"></td>
+                                                        <td>
+                                                            <a class="btn btn-info"
+                                                               th:href="@{/setting/settings/view-modify-setting-line/{id}(id=${rowLine.idLine})}">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                                Modify
+                                                            </a>
+                                                            <a class="btn btn-danger deleteLineList" href="#"
+                                                               th:attr="deleteLineDetailById=${rowLine.idLine}">
+                                                                <i class="fas fa-trash"></i>
+                                                                Delete All
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                </tfoot>
+                                            </table>
+                                            <br>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <a class="form-group">
+                                                    </a>
+                                                    <a class="form-group">
+                                                        <button type="button" class="btn btn-primary li-modal-add-line-list"
+                                                                th:href="@{/setting/settings/view-add-data-line-relation/}"
+                                                                data-target="#Modaladdlinelist"
+                                                                style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-plus-circle"></i> | Add Data</button>
+                                                    </a>
+
+                                                    <a class="form-group">
+                                                        <button type="button" class="btn btn-primary li-modal-import-line"
+                                                                th:href="@{/setting/settings/view-import-line-route/}"
+                                                                data-target="#Modalimportlineroute"
+                                                                style="padding-left: 30px; padding-right: 30px;">
+                                                            <i class="fa fa-file-import">
+                                                            </i> | Import Data</button>
+                                                    </a>
+                                                    <div class="btn-group" role="group">
+                                                        <button id="btnGroupDrop1" type="button"
+                                                                class="btn btn-primary dropdown-toggle"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                            <i class="fa fa-file-export">
+                                                            </i> | Export Data
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                            <a class="dropdown-item" th:href="@{/api/v1/ts1000/auto/export-Route}">
+                                                                <i class="fa fa-file-export">
+                                                                </i> | Export Route</a>
+                                                            <a class="dropdown-item" th:href="@{/api/v1/ts1000/auto/export-Line}">
+                                                                <i class="fa fa-file-export">
+                                                                </i> | Export Line</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</div>
+<!-- this modal for data master schedule -->
+<div id="modalAddMasterSchedule" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="xx">Data Master Schedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/submit/insert" method="post">
+                    <input type="hidden" name="_token" value="zLKMbXzAnAMNPFpHEu2j5CTq2Dcf2H90kjNswu7W">
+                    <div class="form-group">
+                        <label>Train</label>
+                        <input type="text" class="form-control" id="train" name="train" placeholder="Name Train" required="">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Station</label>
+                                <select id="sel_station_from" name="sel_station_from" class="form-control" required="">
+                                    <option value="" selected="" disabled="">-- Select station --</option>
+                                    <option value="1">Bandung</option>
+                                    <option value="2">KIRCON</option>
+                                    <option value="3">JAKARTA</option>
+                                    <option value="4">KARET</option>
+                                    <option value="5">KEMAYORAN</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>No Platform</label>
+                                <select id="sel_peron_from" name="sel_peron_from" class="form-control" required="">
+                                    <option value="" selected="" disabled="">-- Select peron --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Route</label>
+                        <select class="form-control" id="line" name="line" placeholder="Type Line" required="">
+                            <option value="" selected="" disabled="">-- Select Route --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Type Schedule</label>
+                        <select class="form-control" id="typetrain" name="typetrain" placeholder="Type Schedule" required="">
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Arrival</label>
+                                <input type="time" step="1" class="form-control" id="arrival" name="arrival" placeholder="Depart Time" required="">
+                            </div>
+                        </div>
+
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Depart</label>
+                                <input type="time" step="1" class="form-control" id="depart" name="depart" placeholder="Arriving Time" required="">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Next Day</label>
+                                <input type="checkbox" class="form-control" id="flagmaster" name="flagmaster">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary loading_submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- this modal for data type schedule -->
+<div id="modalAddtypeSchedule" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<!-- modal for modify schedule type -->
+<div id="modalModifyScheduleType" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- modal for modify schedule type -->
+<div id="modalModifyColorTrain" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<!-- this modal for add data rute -->
+<div id="modalAddrutelist" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<!-- this modal for add line list -->
+<div id="modalAddLineList" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<!-- this modal for Import Line Route Data -->
+<div id="Modalimportlineroute" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- /. content-wrapper -->
+<!-- footer -->
+<footer th:replace="fragments/footer :: footer">
+    ini footer
+</footer>
+<!-- /.footer -->
+</body>
+</html>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/sparkline.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/jquery.knob.min.js}"></script>
+<script th:src="@{/resources/js/moment.min.js}"></script>
+<script th:src="@{/resources/js/daterangepicker.js}"></script>
+<script th:src="@{/resources/js/tempusdominus-bootstrap-4.min.js}"></script>
+<script th:src="@{/resources/js/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/resources/js/summernote-bs4.min.js}"></script>
+<script th:src="@{/resources/js/adminlte.min.js}"></script>
+<script th:src="@{/resources/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+<script th:src="@{/resources/js/toastr.min.js}"></script>
+
+<script th:src="@{/resources/js/setting/table.js}"></script>
+<script th:src="@{/resources/js/setting/function.js}"></script>
+<script th:src="@{/resources/js/setting/popup.js}"></script>
+<script th:src="@{/resources/js/setting/event.js}"></script>
+
+<script th:src="@{/resources/js/bootstrapselect/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/resources/icons/js/all.js}"></script>
+<script th:src="@{/resources/icons/js/all.min.js}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>

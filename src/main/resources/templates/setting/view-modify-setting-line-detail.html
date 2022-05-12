@@ -1,0 +1,54 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Modify Line Station Data
+        </h3>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" action="#" th:action="@{/setting/settings/modify-setting-line-detail}" method="post" th:object="${modifyListLineDetailCommand}" novalidate>
+            <input type="hidden" th:value="${lines.idListLineDetail}" th:name="idListLineDetail">
+            <label>Station</label>
+            <div class="form-group row col-12">
+                    <div class="col-sm-6">
+                        <select id="station"
+                                th:name="idStation"
+                                class="selectpicker"
+                                data-title="Select Station"
+                                data-live-search="true" >
+                            <option th:each="station : ${detailStation}"
+                                    th:text="${station.nameStation}"
+                                    th:value="${station.idStation}"
+                                    th:selected="${station.idStation == lines?.station?.idStation}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select href="#"  th:name="locUnitLine" roleId="typeLine" id="typeLine"
+                                 class="selectpicker form-control">
+                            <option th:each="line : ${units}"
+                                    th:value="${line}"
+                                    th:text="${line}"
+                                    th:selected="${line == lines.locUnitLine}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" th:name="indexListLineDetail"  th:value="${lines.indexListLineDetail}" id="location" placeholder="Loc" min="0" required="">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/resources/js/setting/event.js}"></script>
+<script>
+    // Initialize the select picker.
+    $('select[name=idStation]').selectpicker();
+    $('select[name=locUnitLine]').selectpicker();
+</script>

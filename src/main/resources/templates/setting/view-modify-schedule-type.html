@@ -1,0 +1,27 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Modify Schedule Type
+        </h3>
+    </div>
+<div class="modal-body">
+    <form class="needs-validation" action="#" th:action="@{/setting/settings/modify-schedule-type}" th:object="${modifyScheduleTypeCommand}" method="post" novalidate>
+        <input type="hidden" th:value="${typeMasterPlans.idTypeMasterPlan}" th:name="idTypeMasterPlan">
+            <div class="form-group">
+                <label>Type Schedule Name</label>
+
+                <input type="text" name="scheduleName" th:name="scheduleTypeName"
+                       class="form-control" id="scheduleTypeName" th:value="${typeMasterPlans.nameTypeMasterPlan}"
+                       aria-describedby="scheduleName" placeholder="Name Of Schedule" required>
+                <div class="invalid-feedback">
+                    Name Of Schedule Cannot Be Empty
+                </div>
+            </div>
+        <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+    </form>
+</div>
+</div>

@@ -1,0 +1,40 @@
+
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Export Data Actual Plan
+        </h3>
+    </div>
+</div>
+<div class="card-body">
+    <form class="needs-validation"  th:action="@{/actual/exportActual}" th:object="${exportActualCommand}" method="POST" novalidate>
+        <label>From Date</label>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <input type="date"
+                       class="form-control" th:name="fromActualCode" id="fromActualCode" >
+                <div class="invalid-feedback">
+                    Select Date Cannot Be Empty
+                </div>
+            </div>
+        </div>
+
+        <label>To Date</label>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <input type="date"
+                       class="form-control" th:name="toActualCode" id="toActualCode" >
+                <div class="invalid-feedback">
+                    Select Date Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+    </form>
+</div>
+
+<script th:src="@{/resources/js/actual/function.js}"></script>

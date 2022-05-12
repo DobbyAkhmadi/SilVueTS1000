@@ -1,0 +1,12 @@
+.test
+{
+    background: #0052D4;
+    background: -webkit-linear-gradient(bottom, #0052D4, #65C7F7, #ffffff);
+    background: -o-linear-gradient(bottom, #0052D4, #65C7F7, #ffffff);
+    background: -moz-linear-gradient(bottom, #0052D4, #65C7F7, #ffffff);
+    background: linear-gradient(bottom, #0052D4, #65C7F7, #ffffff);
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-size: 100% 55%;
+    background-position: bottom;
+}

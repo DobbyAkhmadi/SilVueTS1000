@@ -1,0 +1,104 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Modify Detail Data Schedule
+        </h3>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" action="#" th:action="@{/today/modify-detail-todayDetail}" method="post"
+              th:object="${modifyTodayCommand}" novalidate>
+            <input type="hidden" th:value="${getDetailTodayDetail.idTodayRunningSchedule}"
+                   th:name="idTodayRunningSchedule" id="idTodayRunningSchedule">
+            <label>Selected Train</label>
+            <div class="col-lg-8">
+                <select th:name="idTrain"
+                        class="selectpicker"
+                        data-title="Select Train"
+                        data-live-search="true">
+                    <option th:each="train : ${trains}"
+                            th:text="${train.noka}"
+                            th:value="${train.idTrain}"
+                            th:selected="${train.idTrain == getDetailTodayDetail.train.idTrain}"
+                            data-tickIcon="fa-check"
+                            data-icon="fa fa-train">
+                    </option>
+                </select>
+            </div>
+            <label>Route</label>
+            <div class="col-lg-8">
+                <select id="nameRoute"
+                        th:name="idRuteRole"
+                        class="selectpicker"
+                        data-title="Select Route"
+                        data-live-search="true" required>
+                    <option th:each="ruteRole : ${routeRoles}" th:text="${ruteRole.nameRoute}"
+                            th:value="${ruteRole.idRuteRole}" th:data="${ruteRole.nameRoute}"
+                            th:selected="${ruteRole.nameRoute == getDetailTodayDetail.ruteRole.nameRoute}"
+                            data-tickIcon="fa-check"
+                            data-icon="fa fa-route">...
+                    </option>
+                </select>
+                <div class="invalid-feedback">
+                    Name Of Routes Cannot Be Empty
+                </div>
+            </div>
+            <label>Type Schedule</label>
+            <div class="col-lg-8">
+                <select id="scheduleType" name="idTypeMasterPlan"
+                        th:name="idTypeMasterPlan"
+                        class="selectpicker"
+                        data-title="Select Type Schedule"
+                        data-live-search="true" required>
+                    <option th:each="typeMasterPlan : ${typeMasterPlans}"
+                            th:selected="${typeMasterPlan.idTypeMasterPlan == getDetailTodayDetail.typeMasterPlan.idTypeMasterPlan}"
+                            th:value="${typeMasterPlan.idTypeMasterPlan}"
+                            th:text="${typeMasterPlan.nameTypeMasterPlan}"
+                            data-tickIcon="fa-check"
+                            data-icon="fa fa-calendar-check">...
+                    </option>
+                </select>
+                <div class="invalid-feedback">
+                    Schedule Type Cannot Be Empty
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <label>Arrival</label>
+                    <input th:name="arrival" th:value="${getDetailTodayDetail.arrival}" type="time" step="1"
+                           class="form-control" id="arrival" name="arrivalDate" placeholder="Depart Time" required>
+                </div>
+                <div class="col-4">
+                    <label>Dweling Time</label>
+                    <input type="text" class="form-control" id="edit_dwelling" th:name="${dwellingTime}"
+                           th:value="${getDetailTodayDetail.dwellingTime}" placeholder="Time Second" readonly="">
+                </div>
+                <div class="col-auto">
+
+                    <label>Depart</label>
+                    <input th:name="depart" th:value="${getDetailTodayDetail.depart}" type="time" step="1"
+                           class="form-control" id="depart" name="departDate" placeholder="Arriving Time" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-auto">
+                    <button type="submit" style="float: left;" class="btn btn-primary"><i
+                            class="fa fa-check-circle"></i> |
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // Initialize the select picker.
+    $('select[name=idTrain]').selectpicker();
+    $('select[name=idTypeMasterPlan]').selectpicker();
+    $('select[name=idRuteRole]').selectpicker();
+</script>

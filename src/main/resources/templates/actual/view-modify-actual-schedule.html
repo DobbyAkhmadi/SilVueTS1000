@@ -1,0 +1,190 @@
+<div class="card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Modify Actual Schedule
+        </h3>
+    </div>
+    <div class="card-body">
+        <form class="needs-validation" action="#" th:action="@{/actual/modify-detail-actual-schedule}" method="post"
+              th:object="${modifyActualCommand}" novalidate>
+
+            <input type="hidden" th:value="${getDetailActualSchedule.idActualPlan}" th:name="idActualPlan"
+                   id="idActualPlan">
+            <!--<span th:text="${getDetailActualSchedule.actualCode}">data</span>-->
+
+            <div class="col">
+                <div class="form-group">
+                    <label>Actual Code</label>
+                    <input th:name="actualCode"
+                           th:value="${getDetailActualSchedule.actualCode}"
+                           type="date" step="1" class="form-control" id="actualCode" name="aktualkode" disabled>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label>Train</label>
+                    <input th:name="trainActualPlan"
+                           th:value="${getDetailActualSchedule.trainActualPlan}"
+                           type="text" step="1" class="form-control" id="train" name="trainActual" placeholder="Train">
+
+                </div>
+                <!--<div class="icheck-primary d-inline">
+                    <input type="checkbox" id="trainActualPlan"
+                           th:onchange="EnableDisableTextBox(this)">
+                    <label for="trainActualPlan">All Train</label>
+                </div>-->
+            </div>
+
+            <div class="row col-12">
+                <div class="col-6">
+                    <div class="form-group">
+                        <div class="card-primary">
+                            <div class="card-header ">
+                                <h3 class="card-title">
+                                    <i class="fas fa-edit"></i>
+                                    Arrival & Depart Schedule List
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <label>Arrival Schedule</label>
+                                <input
+                                        th:name="arriveSchedule" th:value="${getDetailActualSchedule.arriveSchedule}"
+                                        type="datetime-local" step="1" class="form-control" id="arriveSchedule"
+                                        name="arrivalSchedule" placeholder="">
+                                <label>Depart Schedule</label>
+                                <input th:name="departSchedule" th:value="${getDetailActualSchedule.departSchedule}"
+                                       type="datetime-local" step="1" class="form-control" id="departSchedule"
+                                       name="depart-schedule" placeholder="depart-schedule">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-auto">
+                    <div class="form-group">
+                    <div class="card-primary">
+                        <div class="card-header ">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i>
+                                Arrival & Depart Schedule Actual List
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <label>Arrival Actual</label>
+                            <input
+                                    th:name="arriveActualPlan" th:value="${getDetailActualSchedule.arriveActualPlan}"
+                                    type="datetime-local" step="1" class="form-control" id="arriveActualPlan"
+                                    name="actualPlan"
+                                    placeholder="">
+
+                            <label>Depart Actual</label>
+                            <input th:name="departActualPlan" th:value="${getDetailActualSchedule.departActualPlan}"
+                                   type="datetime-local" step="1" class="form-control" id="departActual"
+                                   name="depart-actual"
+                                   placeholder="depart-actual">
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="row col-12">
+                <div class="col">
+                    <div class="form-group">
+                        <div class="card-primary">
+                            <div class="card-header ">
+                                <h3 class="card-title">
+                                    <i class="fas fa-edit"></i>
+                                    Department & Problem List
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <label>Department</label>
+                                <div class="form-group row col-12">
+                                    <select id="nameDepartement"
+                                            name="idDepartement"
+                                            th:name="idDepartement"
+                                            class="selectpicker"
+                                            data-title="Select Department"
+                                            data-live-search="true">
+                                        <option th:each="departement : ${departements}"
+                                                th:text="${departement.nameDepartement}"
+                                                th:value="${departement.idDepartement}"
+                                                th:data="${departement.nameDepartement}"
+                                                th:selected="${departement.nameDepartement == getDetailActualSchedule?.departement?.nameDepartement}">
+                                            ...
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Name Of Department Cannot Be Empty
+                                    </div>
+                                </div>
+
+                                <label>Problem</label>
+                                <div class="form-group">
+                                    <select id="problemName" name="idProblem" th:name="idProblem"
+                                            class="selectpicker"
+                                            data-title="Select Problem"
+                                            data-live-search="true">
+                                        <option th:each="problem : ${problems}" th:text="${problem.problemName}"
+                                                th:value="${problem.idProblem}" th:data="${problem.problemName}"
+                                                th:selected="${problem.problemName == getDetailActualSchedule?.problem?.problemName}">
+                                            ...
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Name Of Problem Cannot Be Empty
+                                    </div>
+                                </div>
+
+                                <label>Description</label>
+                                <div class="form-group">
+                                <textarea th:name="comments" type="text" class="form-control"
+                                          th:value="${getDetailActualSchedule.comments}"
+                                          rows="4" cols="50"
+                                          placeholder="Add a comment" required>
+                                </textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--                <div class="col">-->
+                    <!--                    <label>Problem</label>-->
+                    <!--                    <div class="form-group">-->
+                    <!--                        <select id="problemName" name="idProblem" th:name="idProblem"-->
+                    <!--                                class="selectpicker"-->
+                    <!--                                data-title="Select Problem"-->
+                    <!--                                data-live-search="true">-->
+                    <!--                            <option th:each="problem : ${problems}" th:text="${problem.problemName}"-->
+                    <!--                                    th:value="${problem.idProblem}" th:data="${problem.problemName}"-->
+                    <!--                                    th:selected="${problem.problemName == getDetailActualSchedule?.problem?.problemName}">-->
+                    <!--                                ...-->
+                    <!--                            </option>-->
+                    <!--                        </select>-->
+                    <!--                        <div class="invalid-feedback">-->
+                    <!--                            Name Of Problem Cannot Be Empty-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <button type="submit" style="float: left;" class="btn btn-primary"><i
+                            class="fa fa-check-circle"></i> |
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    // Initialize the select picker.
+    $('select[name=idDepartement]').selectpicker();
+    $('select[name=idProblem]').selectpicker();
+</script>
+

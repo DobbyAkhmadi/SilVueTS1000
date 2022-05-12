@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Silvue TS1000 Operator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/resources/css/bootstrap.css}"  th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/styles.css}" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.css}" th:rel="stylesheet"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="icon" type="image/png" href="/resources/icons/len.ico"/>
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/icheck-bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/jqvmap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/adminlte.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/OverlayScrollbars.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/summernote-bs4.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/dataTables.bootstrap4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/toastr.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/images.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/js/bootstrapselect/css/bootstrap-select.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+</head>
+<body>
+
+<nav th:replace="fragments/navigation-bar :: navbar">
+    Ini Navbar
+</nav>
+<aside th:replace="fragments/brand-logo :: brand">
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Detail Route Relation</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="card card-primary card-outline">
+            <!-- header atas konten -->
+            <div class="card-header">
+            </div>
+
+            <!-- isi dari konten -->
+            <div class="card-body">
+                <!-- isi si shortcut -->
+                <div class="tab-content" id="custom-content-above-tabContent">
+                    <!-- isi masterplan -->
+                    <div class="tab-pane fade show active" id="custom-content-above-mp" role="tabpanel"
+                         aria-labelledby="custom-content-above-mp-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-primary ">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Modify Route Relation</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card card-primary card-outline">
+                                            <div class="card-header">
+                                                <h3 class="card-title">
+                                                    <i class="far fa-edit"></i>
+                                                    Add New Route Relation For Route : <strong><td th:text="${ruteRoles?.ruteRole?.nameRoute} ?: 'UNKNOWN'" /></strong>
+                                                </h3>
+                                            </div>
+                                            <form class="needs-validation" action="#" th:action="@{/setting/settings/add-route-detail}" th:object="${addListRuteDetailCommand}" method="post" novalidate>
+                                                <input type="hidden" th:value="${ruteRoles?.ruteRole?.idRuteRole}" th:name="idRuteRole">
+                                                <div class="card-body">
+                                                    <label for="station">Station</label>
+                                                    <div class="form-group col-6">
+                                                        <select id="station"
+                                                                th:name="idStation"
+                                                                class="selectpicker col-6"
+                                                                data-title="Select Station"
+                                                                data-live-search="true" >
+                                                            <option th:each="station : ${stations}"
+                                                                    th:text="${station.nameStation}"
+                                                                    th:value="${station.idStation}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <label for="directionId">Unit</label>
+                                                    <div class="form-group col-6">
+                                                        <select class="selectpicker form-control col-6" th:name="locUnitRute" href="#" id="directionId" >
+                                                            <option value="METER">Meter</option>
+                                                            <option value="KILOMETER">Kilometer</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-6">
+                                                        <label>Location</label>
+                                                        <input type="number" class="form-control col-6" th:name="indexListRuteDetail" id="location" placeholder="Location" min="0" required="">
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-plus-circle"></i> | Add New Data</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <table id="dataRouteRelation" class="table table-bordered table-striped">
+                                            <thead align="center">
+                                            <tr>
+                                                <th>Rute</th>
+                                                <th>Station Name</th>
+                                                <th>Location</th>
+                                                <th>Unit</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody align="center">
+                                            <tr th:each="routeData : ${routeRoleLists}">
+                                                <td th:text="${routeData.ruteRole.nameRoute}"></td>
+                                                <td th:text="${routeData.station.nameStation}"></td>
+                                                <td th:text="${routeData.indexListRuteDetail}"></td>
+                                                <td th:text="${routeData.locUnitRute}"></td>
+                                                <td>
+                                                    <a class="btn btn-info li-modal-add-rute-relation"
+                                                       data-target="#modalAddRouteRelation"
+                                                       th:href="@{/setting/settings/view-modify-setting-route-detail/{id}(id=${routeData.idListRuteDetail})}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                        Modify
+                                                    </a>
+                                                    <a class="btn btn-danger deleteRouteList" href="#"
+                                                       th:attr="deleteRouteDetailById=${routeData.idListRuteDetail}">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            </tfoot>
+                                        </table>
+                                        <br>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- isi stasiun -->
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+<!-- this modal for data type schedule -->
+<div id="modalAddRouteRelation" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/footer :: footer">
+    ini footer
+</footer>
+
+</body>
+</html>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/sparkline.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/jquery.knob.min.js}"></script>
+<script th:src="@{/resources/js/moment.min.js}"></script>
+<script th:src="@{/resources/js/daterangepicker.js}"></script>
+<script th:src="@{/resources/js/tempusdominus-bootstrap-4.min.js}"></script>
+<script th:src="@{/resources/js/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/resources/js/summernote-bs4.min.js}"></script>
+<script th:src="@{/resources/js/adminlte.min.js}"></script>
+<script th:src="@{/resources/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+<script th:src="@{/resources/js/toastr.min.js}"></script>
+
+<script th:src="@{/resources/js/setting/table.js}"></script>
+<script th:src="@{/resources/js/setting/popup.js}"></script>
+<script th:src="@{/resources/js/setting/event.js}"></script>
+<script th:src="@{/resources/js/setting/function.js}"></script>
+
+<script th:src="@{/resources/js/load.js}"></script>
+<script th:src="@{/resources/js/bootstrapselect/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/resources/icons/js/all.js}"></script>
+<script th:src="@{/resources/icons/js/all.min.js}"></script>
+<script>
+    // Initialize the select picker.
+    $('select[name=idStation]').selectpicker();
+</script>
+<script>
+    //delete all data route by id
+    $('.deleteRouteList').click(function(){
+        var delete_id = $(this).attr('deleteRouteDetailById');
+        // var link = $(this).find('a').attr('href');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $("#img").fadeIn();
+                toastr.info('Deleting data route.')
+                window.location = "/setting/settings/delete-route-relation-detail/" + delete_id;
+            }
+        })
+    });
+</script>
+<script>
+
+    $('.li-modal-add-rute-relation').on('click', function(e){
+        e.preventDefault();
+        $('#modalAddRouteRelation').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+</script>

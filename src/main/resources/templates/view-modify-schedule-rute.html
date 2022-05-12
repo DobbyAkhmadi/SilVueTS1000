@@ -1,0 +1,94 @@
+<div class="card card-primary">
+    <!-- header atas konten -->
+    <div class="card-header">
+        <h4 class="m-0 ">Modify Schedule Route</h4>
+    </div>
+</div>
+<div class="modal-body">
+    <form action="#" th:action="@{/masterschedule/modify-schedule-route}" method="post" th:object="${modifyRouteCommand}">
+        <input type="hidden" th:name="routeId" th:value="${route.routeId}" name="routeId">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Station</label>
+                    <select th:name="stationId" id='sel_station_from_route' name='stationId' class="form-control" required>
+                        <option th:each="station : ${stationList}"
+                                th:text="${station.nameStation}"
+                                th:value="${station.idStation}" th:selected="${station.idStation == route.station.idStation}">
+                            Station
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>No Platform</label>
+                    <select th:name="peronId" id='sel_peron_from_route' name='peronId' class="form-control" required>
+                        <option th:each="peron : ${peronList}"
+                                th:text="${peron.noPeron}"
+                                th:value="${peron.idPeron}" th:selected="${peron.idPeron == route.peron.idPeron}">
+                            Station
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>Arrival</label>
+                    <input th:name="arrival" type="time" step="1" class="form-control" id="arrival"
+                           th:value="${arrivalStr}" name="arrivalDate" placeholder="Depart Time" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Depart</label>
+                    <input th:name="depart" type="time" step="1" class="form-control"
+                           th:value="${departStr}" id="depart" name="departDate" placeholder="Arriving Time" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="icheck-primary d-inline">
+                <input type="checkbox" id="checkboxPrimary3">
+                <label for="checkboxPrimary3">
+                    Next Day
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary loading_submit">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+// var CSRF_TOKEN = $('meta[name="csrf-token"').attr('content');
+//
+//
+// $('.navSubmit').addClass('active');
+
+//$("#sidebarTM").tabs({ active: 1 });
+// STATION Change
+        $('#sel_station_from_route').change(function() {
+// STATION id
+            var id = $(this).children(":selected").attr("value");
+
+// Empty the dropdown
+            $('#sel_peron_from_route').find('option').remove();
+            $.get("/api/v1/ts1000/peron/"+id, function(data) {
+                for (let i in data) {
+                    console.log(data[i]);
+                    var option = "<option value='" + data[i].idPeron + "'>" + data[i].noPeron + "</option>";
+                    $("#sel_peron_from_route").append(option);
+                }
+            });
+        });
+    });
+</script>

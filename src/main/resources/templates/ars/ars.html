@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Silvue TS1000 Operator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link href="../resources/css/styles.css" th:href="@{/resources/css/styles.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="icon" type="image/png" href="/resources/icons/len.ico"/>
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/icheck-bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/jqvmap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/adminlte.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/OverlayScrollbars.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/summernote-bs4.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/dataTables.bootstrap4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/toastr.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/images.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/loading.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/js/bootstrapselect/css/bootstrap-select.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+
+</head>
+<body class="hold-transition sidebar-mini" data-new-gr-c-s-check-loaded="14.1031.0" data-gr-ext-installed style="height: auto;">
+<nav th:replace="fragments/navigation-bar :: navbar">
+    Ini Navbar
+</nav>
+
+<aside th:replace="fragments/brand-logo :: brand">
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="min-height: 807px;">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Automatic Route Setting</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /. content-header -->
+    <!-- Main content -->
+    <!-- gambar buat loading -->
+
+    <img id="load" class="display"></img>
+    <img id="img" style="display:none"></img>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-8">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Table Data ARS Schedule</h3>
+                    </div>
+                    <div class="card-body table-responsive p-3">
+                        <table id="page_idx" class="table table-bordered table-striped">
+                            <thead align="center">
+                            <tr>
+                                <!--                                <th>Train ID</th> fitur urban-->
+                                <!--                                <th>Train Availabilitiy</th>fitur urban-->
+                                <th>Train</th>
+                                <th>Platform</th>
+                                <th>Departure Time</th>
+                                <th>Current Station</th>
+                                <th>Route</th>
+                                <th>ARS Status</th>
+                            </tr>
+                            </thead>
+                            <tbody id="arstable" align="center">
+
+                            <tr th:each="sch : ${ArsSchedule}">
+                                <!--                                <td th:text="${sch.numberTrain?.numberVehicleTrain}"></td> fitur urban-->
+                                <!--                                <td th:text="${sch.routeSettingStatus}"></td>fitur urban-->
+                                <td th:text="${sch.train?.noka}"></td>
+                                <td th:text="${sch.peronFromArs?.noPeron}"></td>
+                                <td th:text="${sch.departArs}"></td>
+                                <td th:text="${sch.peronFromArs?.Station?.nameStation}"></td>
+                                <td th:text="${sch.ruteRole?.nameRoute}"></td>
+                                <td th:if="${sch.scheduleStatusArs} == '1'" th:text="|Done|"></td>
+                                <td th:if="${sch.scheduleStatusArs} == '0'" th:text="|Running|"></td>
+                            </tr>
+
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                        <br>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Interface Status & Setting</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col" align="center">
+                                    <div class="form-group">
+                                        <span id="toggleWrapperArs" >
+                                            <input type="hidden" id="enableArsTemp" name="enableArsTemp" th:value="${configurationLists?.arsStatusEnable}">
+                                            <input type="checkbox" id="enableArsBtn"
+                                                   data-toggle="toggle"
+                                                   data-on="Enabled"
+                                                   data-off="Disabled"
+                                                   style="width: 84.8958px; height: 30.6667px;"
+                                                   th:checked="${arsEnabled}"
+                                            >
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col" align="center">
+                                    <button href="#" th:id="updateArsBtn" type="submit" class="btn btn-primary" ><i class="fa fa-check-circle"></i> | Update </button>
+                                    <h6 class="mb-0">Last Update :
+                                        <br th:text="${systemstatusLists?.lastUpdateArs}"><br/>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="col">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead align="center">
+                                    <tr>
+                                        <div class="card card-primary">
+                                            <div class="card-header">
+                                                <h3 class="card-title" align="center">ARS-CBI</h3>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                    </thead>
+                                    <tbody align="center">
+                                    <tr>
+                                        <td>Connected</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="col">
+                                <table id="b" class="table table-bordered table-striped">
+                                    <thead align="center">
+                                    <tr>
+                                        <div class="card card-primary">
+                                            <div class="card-header">
+                                                <h3 class="card-title" align="center">ARS-ATO</h3>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                    </thead>
+                                    <tbody align="center">
+                                    <tr>
+                                        <td>TR-2 Connected</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Modal modify type schedul-->
+<div class="modal fade " id="modalModifyDataArs" th:action="@{/atr/modify-peron-ars}" method="post" th:object="${modifyArsCommand}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/type/modify" method="post">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="choice" value="platformMod" id="platformOnly" checked>
+                        <label class="form-check-label" for="platformOnly">
+                            Modify Platform
+                        </label>
+                        <br>
+                        <input class="form-check-input" type="radio" name="choice" value="delaymod" id="delayOnly">
+                        <label class="form-check-label" for="delayOnly">
+                            Add Delay
+                        </label>
+                    </div>
+                    <br>
+                    <input type="hidden" class="form-control" name="idArsSchedule" id="idArsSchedule" placeholder="ID Type Schedule" readonly>
+
+                    <div class="form-group">
+                        <label>Train</label>
+                        <input type="text" class="form-control" name="noka" id="noka" placeholder="noka" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Station</label>
+                        <input type="text" class="form-control" name="nameStation" id="nameStation" placeholder="Station" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Depart</label>
+                        <input type="text" class="form-control" name="departArs" id="departArs" placeholder="Depart" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Track</label>
+                        <input type="text" class="form-control" name="track" id="track" placeholder="Platform" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Platform</label>
+                        <input type="text" class="form-control" name="noPeron" id="noPeron" placeholder="Platform" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Add Delay</label>
+                        <input type="text" class="form-control" name="delayArs" id="delayArs" placeholder="Delay time for ARS Data" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary loading_schedule_edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /. content-wrapper -->
+<!-- footer -->
+<footer th:replace="fragments/footer :: footer">
+    ini footer
+</footer>
+<!-- /.footer -->
+
+</body>
+</html>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/sparkline.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/jquery.knob.min.js}"></script>
+<script th:src="@{/resources/js/moment.min.js}"></script>
+<script th:src="@{/resources/js/daterangepicker.js}"></script>
+<script th:src="@{/resources/js/tempusdominus-bootstrap-4.min.js}"></script>
+<script th:src="@{/resources/js/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/resources/js/summernote-bs4.min.js}"></script>
+<script th:src="@{/resources/js/adminlte.min.js}"></script>
+<script th:src="@{/resources/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+<script th:src="@{/resources/js/toastr.min.js}"></script>
+<script th:src="@{/resources/icons/js/all.js}"></script>
+<script th:src="@{/resources/icons/js/all.min.js}"></script>
+
+<script th:src="@{/resources/js/ars/function.js}"></script>
+<script th:src="@{/resources/js/ars/table.js}"></script>
+
+<script th:src="@{/resources/js/load.js}"></script>
+<script th:src="@{/resources/js/bootstrapselect/js/bootstrap-select.min.js}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>

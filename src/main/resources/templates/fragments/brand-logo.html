@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Silvue TS1000 Operator</title>
+</head>
+<body>
+
+<aside class="main-sidebar elevation-4 sidebar-light-primary" th:fragment="brand">
+
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link navbar-primary">
+        <img src="../resources/images/AdminLTELogo.png" th:src="@{/resources/images/AdminLTELogo.png}"
+             class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text" style="color: white"> SiLVue TS1000</span>
+        <!-- <span class="brand-text font-weight-light"> Silvue TMIS</span>      -->
+    </a>
+    <div th:replace="fragments/sidebar :: sidebar">
+        Ini menu samping
+    </div>
+</aside>
+
+</body>
+</html>

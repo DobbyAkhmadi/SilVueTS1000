@@ -1,0 +1,73 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <h3 class="card-title">Modify Data Schedule <span th:text="${schedule.train.noka}"></span></h3>
+    </div>
+<div class="modal-body">
+    <form class="needs-validation" action="#" th:action="@{/masterschedule/modify-schedule}" method="post" th:object="${modifyScheduleCommand}" novalidate>
+        <input type="hidden" th:value="${schedule.scheduleId}" name="scheduleId" id="scheduleId">
+        <div class="form-group row">
+            <label for="scheduleName" class="col-sm-2 col-form-label">Name Of Schedule</label>
+            <div class="col-sm-10">
+                <input type="text" name="scheduleName" th:name="scheduleName" th:value="${schedule.scheduleName}"
+                       class="form-control" id="scheduleName"
+                       aria-describedby="scheduleName" placeholder="Name Of Schedule" required>
+                <div class="invalid-feedback">
+                    Name Of Schedule Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="trainName" class="col-sm-2 col-form-label">Name Of Train</label>
+            <div class="col-sm-10">
+                <select id="trainName" name="idTrain" th:name="idTrain" class="form-control" required>
+                    <option value="" selected>--Choose Train--</option>
+                    <option th:each="train: ${trains}" th:value="${train.idTrain}"
+                            th:text="${train.noka}" th:data="${train.noka}" th:selected="${train.idTrain == schedule.train.idTrain}">...</option>
+                </select>
+                <div class="invalid-feedback">
+                    Train Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="routeName" class="col-sm-2 col-form-label">Route</label>
+            <div class="col-sm-10">
+                <select id="routeName" class="form-control" name="idRuteRole" th:name="idRuteRole" required>
+                    <option value="" selected>--Choose Route--</option>
+                    <option th:each="ruteRole : ${routeRoles}" th:text="${ruteRole.nameRoute}" th:selected="${ruteRole.idRuteRole == schedule.ruteRole.idRuteRole}"
+                            th:value="${ruteRole.idRuteRole}" th:data="${ruteRole.nameRoute}">...</option>
+                </select>
+                <div class="invalid-feedback">
+                    Name Of Routes Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="scheduleType" class="col-sm-2 col-form-label">Schedule Type</label>
+            <div class="col-sm-10">
+                <select id="scheduleType" class="form-control" name="idTypeMasterPlan"
+                        th:name="idTypeMasterPlan" required>
+                    <option value="" selected>--Choose Schedule Type--</option>
+                    <option th:each="typeMasterPlan : ${typeMasterPlans}" th:selected="${typeMasterPlan.idTypeMasterPlan == schedule.typeMasterPlan.idTypeMasterPlan}"
+                            th:value="${typeMasterPlan.idTypeMasterPlan}"
+                            th:text="${typeMasterPlan.nameTypeMasterPlan}">...</option>
+                </select>
+                <div class="invalid-feedback">
+                    Schedule Type Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="flagMaster" class="col-sm-2 col-form-label">Next Day</label>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="flagMaster" name="flagMaster"
+                           th:checked="${schedule.flagMaster == 'on'}" th:name="flagMaster">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </form>
+</div>
+</div>

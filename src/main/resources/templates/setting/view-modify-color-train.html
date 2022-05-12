@@ -1,0 +1,32 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+           Modify Train Color
+        </h3>
+    </div>
+<div class="modal-body">
+    <form class="needs-validation" action="#" th:action="@{/setting/settings/modify-color-train}" th:object="${modifyColorTrainCommand}" method="post" novalidate>
+        <input type="hidden" th:value="${colorTrains.idColorTrain}" th:name="idColorTrain">
+
+        <div class="form-group">
+            <label>NOKA : </label>
+            <input type="label" th:name="scheduleTypeName"
+               class="form-control" id="scheduleTypeName" th:value="${colorTrains.train.noka}" disabled>
+        </div>
+        <div class="form-group">
+                <label>Select Color Train : </label>
+                <input type="color" id="colorTrain" th:name="colorTrain" href="#" value="${colorTrains.colorTrain}">
+                <br><br>
+                <div class="invalid-feedback">
+                    Color Train Cannot Be Empty
+                </div>
+        </div>
+        <button type="submit" style="float: left;" class="btn btn-primary btnSubmitTrainColor"><i class="fa fa-check-circle"></i> | Submit</button>
+    </form>
+</div>
+</div>
+<script th:src="@{/resources/js/setting/event.js}"></script>

@@ -1,0 +1,30 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Add Data Schedule Type
+        </h3>
+    </div>
+<div class="modal-body">
+    <form class="needs-validation" action="#" th:action="@{/setting/settings/add-schedule-type}" th:object="${addScheduleTypeCommand}" method="post" novalidate>
+        <div class="form-group row">
+
+            <div class="col-sm-10">
+                <div name="station_list_rute" id="station_list_rute" class="form-station_list station_name_list">
+                    <label>Name Of Schedule Type</label>
+                </div>
+                <input type="text" name="scheduleName" th:name="scheduleTypeName"
+                       class="form-control" id="scheduleTypeName"
+                       aria-describedby="scheduleName" placeholder="Name Of Schedule" required>
+                <div class="invalid-feedback">
+                    Name Of Schedule Cannot Be Empty
+                </div>
+            </div>
+        </div>
+        <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+    </form>
+</div>
+</div>

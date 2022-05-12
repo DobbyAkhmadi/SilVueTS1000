@@ -1,0 +1,43 @@
+<div class="card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Add Data User
+        </h3>
+    </div>
+    <div class="card-body">
+        <form class="needs-validation" action="#" th:action="@{/register/add-data-user}"
+              th:object="${addScheduleTypeCommand}" method="post" novalidate>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" name="edit_name_user" id="edit_name_user" placeholder=""
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Access</label>
+                <select class="form-control" id="access_edit" name="access_edit" placeholder="Type Schedule">
+                    <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+                    <option value="OPERATOR">OPERATOR</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-group" id="show_hide_password">
+                    <input class="form-control" type="password" id="edit_password" name="edit_password" required
+                           autocomplete="new-password">
+                    <div class="input-group-addon">
+                        <a href=""><i class="col-md-4 col-form-label" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> |
+                Submit
+            </button>
+        </form>
+    </div>
+</div>

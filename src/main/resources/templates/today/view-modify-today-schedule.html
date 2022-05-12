@@ -1,0 +1,81 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Modify All Today Detail Data Schedule
+        </h3>
+    </div>
+
+    <div class="modal-body">
+        <form class="needs-validation" action="#" th:action="@{/today/modify-all-todaysDetail}" method="post"
+              th:object="${modifyTodayCommand}" novalidate>
+            <input type="hidden" th:value="${getDetailTodayDetail.train.idTrain}"
+                   th:name="idTrainSelect" id="idTrainSelect">
+            <label>Selected Train</label>
+            <div class="form-group">
+                <div class="col">
+                    <div class="form-group row">
+                        <select th:name="idTrain"
+                                class="selectpicker"
+                                data-title="Select Train"
+                                data-live-search="true">
+                            <option th:each="train : ${trains}"
+                                    th:text="${train.noka}"
+                                    th:value="${train.idTrain}"
+                                    th:selected="${train.idTrain == getDetailTodayDetail?.train?.idTrain}"
+                                    data-tickIcon="fa-check"
+                                    data-icon="fa fa-train"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <label>Route</label>
+            <div class="form-group">
+                <select id="nameRoute" name="idRuteRole" th:name="idRuteRole" class="selectpicker"
+                        data-title="Select Route"
+                        data-live-search="true" required>
+                    <option th:each="ruteRole : ${routeRoles}" th:text="${ruteRole.nameRoute}"
+                            th:value="${ruteRole.idRuteRole}" th:data="${ruteRole.nameRoute}"
+                            th:selected="${ruteRole.nameRoute == getDetailTodayDetail.ruteRole.nameRoute}"
+                            data-tickIcon="fa-check"
+                            data-icon="fa fa-route">...
+                    </option>
+                </select>
+                <div class="invalid-feedback">
+                    Name Of Routes Cannot Be Empty
+                </div>
+            </div>
+            <label>Type Schedule</label>
+            <div class="form-group">
+                <select id="scheduleType" class="selectpicker" name="idTypeMasterPlan"
+                        th:name="idTypeMasterPlan"
+                        data-title="Select Type Schedule"
+                        data-live-search="true" required>
+                    <option value="" selected>--Choose Schedule Type--</option>
+                    <option th:each="typeMasterPlan : ${typeMasterPlans}"
+                            th:selected="${typeMasterPlan.idTypeMasterPlan == getDetailTodayDetail.typeMasterPlan.idTypeMasterPlan}"
+                            th:value="${typeMasterPlan.idTypeMasterPlan}"
+                            th:text="${typeMasterPlan.nameTypeMasterPlan}"
+                            data-tickIcon="fa-check"
+                            data-icon="fa fa-calendar-check">...
+                    </option>
+                </select>
+                <div class="invalid-feedback">
+                    Schedule Type Cannot Be Empty
+                </div>
+            </div>
+            <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i>
+                |Submit
+            </button>
+        </form>
+    </div>
+</div>
+<script>
+    // Initialize the select picker.
+    $('select[name=idTrain]').selectpicker();
+    $('select[name=idTypeMasterPlan]').selectpicker();
+    $('select[name=idRuteRole]').selectpicker();
+</script>

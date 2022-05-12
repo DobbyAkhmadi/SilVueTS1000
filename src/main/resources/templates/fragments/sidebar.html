@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Silvue TS1000 Operator</title>
+</head>
+<body>
+<!-- Sidebar -->
+<div id="sidebarTM" class="sidebar" th:fragment="sidebar">
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar navbar-nav flex-column mb-3" data-widget="treeview" role="tablist">
+            <li class="nav-item ">
+                <a href="/" class="nav-link nav0v" >
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    <p>Overview</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="/schedule/masterschedule" class="nav-link navSchedule"  >
+                    <i class="fas fa-calendar nav-icon"></i>
+                    <p>Master Schedule</p>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a href="/today/todaysDetail" class="nav-link navToday"  >
+                    <i class="fas fa-calendar-week nav-icon"></i>
+                    <p>Today's Schedule</p>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a href="/actual/actualschedule" class="nav-link navActual" >
+                    <i class="fas fa-business-time nav-icon"></i>
+                    <p>Actual Schedule</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="/trainlocation" class="nav-link navTrain" >
+                    <i class="fas fa-train nav-icon"></i>
+                    <p>Train Location</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="/gapeka" class="nav-link navGapeka" >
+                    <i class="fas fa-chart-area nav-icon"></i>
+                    <p>Time Distance Graph</p>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a href="/ars" class="nav-link navArs" >
+                    <i class="fas fa-route nav-icon"></i>
+                    <p>
+                        Automatic Route Setting
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a href="/atr" class="nav-link navAtr" >
+                    <i class="fas fa-gavel nav-icon"></i>
+                    <p>
+                        Automatic Train Regulation
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a href="/alarm" class="nav-link navAlarm"  aria-selected="false">
+                    <i class="nav-icon fas fa-bell"></i>
+                    <p>
+                        Event Logger
+                    </p>
+                </a>
+            </li>
+
+<!--            @if(Auth::user()->Access == 'ADMINISTRATOR')-->
+            <li class="nav-item ">
+                <a href="/register" class="nav-link navAdmin" >
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        User Management
+                    </p>
+                </a>
+            </li>
+<!--            @endif-->
+
+            <li class="nav-item ">
+                <a href="/setting/settings" class="nav-link navSettings" >
+                    <i class="nav-icon fas fa-cogs"></i>
+                    <p>
+                        Settings
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item colored">
+                <a href="/logout" class="nav-link navLogout">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+            </li>
+            <!-- <img class="nav-icon" id="images_test" src="{{ asset('images/test.png') }}" align="center"> -->
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+
+</div>
+<!--
+<div class="os-resize-observer-host">
+    <div class="os-resize-observer observed" style=" left: 0px; right: auto;"></div>
+</div>
+<div class="os-resize-auto-observer" style="height: calc(100% + 1px); float: left;">
+    <div class="os-resize-observer observed"></div>
+</div>
+<div class="os-content-glue" style="margin: 0px -8px; width: 73px; height: 872px;"></div>
+<div class="os-padding">
+    <div class="os-viewport os-viewport-native-scrollbar-invinsible" style>
+        <div class="os-content" style="padding: 0px 8px; height 100%; width 100%;">
+        </div>
+    </div>
+</div>
+
+<div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+    <div class="os-scrollbar-track">
+        <div class="os-scrollbar-handle" style="height: 100% transform: translate(0px, 0px);"></div>
+    </div>
+</div>
+
+<div class="os-scrollbar os-scrollbar-vertical os-scrollbar-unusable os-scrollbar-auto-hidden">
+    <div class="os-scrollbar-track">
+        <div class="os-scrollbar-handle" style="height: 100% transform: translate(0px, 0px);"></div>
+    </div>
+    <div class="os-scrollbar-corner"></div>
+</div> -->
+<!-- /.sidebar -->
+</body>
+</html>

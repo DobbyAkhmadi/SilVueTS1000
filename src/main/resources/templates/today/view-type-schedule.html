@@ -1,0 +1,37 @@
+
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Select Type Schedule
+        </h3>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="needs-validation" action="#" th:action="@{/today/type-schedule-command}" th:object="${addTodayCommand}" method="post" novalidate>
+        <label>Select Type Schedule</label>
+        <div class="form-group">
+            <select id="idTypeMasterPlan"
+                    th:name="idTypeMasterPlan"
+                    class=" form-control"
+                    data-title="Select Type Master Plan"
+                    data-live-search="true" multiple>
+                <option th:each="typeMasterPlan : ${typeMasterPlans}"
+                        th:value="${typeMasterPlan.idTypeMasterPlan}"
+                        th:text="${typeMasterPlan.nameTypeMasterPlan}"
+                        data-tickIcon="fa-check"
+                        data-icon="fa fa-calendar-check">...</option>
+            </select>
+        </div>
+        <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+    </form>
+</div>
+<script>
+// Initialize the select picker.
+  $('select[name=idTypeMasterPlan]').selectpicker();
+</script>
+
+

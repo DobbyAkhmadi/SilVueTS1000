@@ -1,0 +1,35 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Import Data Actual Schedule
+        </h3>
+    </div>
+    <div class="card-body">
+        <form class="needs-validation" action="#" th:action="@{/actual/import-actual-schedule}"
+              method="post" enctype="multipart/form-data" novalidate>
+            <div class="form-group row">
+                <div class="custom-file">
+                    <input type="file"
+                           class="custom-file-input" id="customFile"
+                           name="file"
+                           href="#" accept=".csv">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> |
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).on('change', '.custom-file-input', function (event) {
+        $(this).next('.custom-file-label').html(event.target.files[0].name);
+    })
+</script>

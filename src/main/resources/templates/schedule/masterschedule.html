@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Silvue TS1000 Operator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/resources/css/bootstrap.css}"  th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/styles.css}" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.css}" th:rel="stylesheet"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="icon" type="image/png" href="/resources/icons/len.ico"/>
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/icheck-bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/jqvmap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/adminlte.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/OverlayScrollbars.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/summernote-bs4.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/dataTables.bootstrap4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/toastr.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/images.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/loading.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/js/bootstrapselect/css/bootstrap-select.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+</head>
+<body class="hold-transition sidebar-mini" data-new-gr-c-s-check-loaded="14.1031.0" data-gr-ext-installed style="height: auto;">
+<nav th:replace="fragments/navigation-bar :: navbar">
+    Ini Navbar
+</nav>
+<aside th:replace="fragments/brand-logo :: brand">
+</aside>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Master Schedule</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /. content-header -->
+    <!-- Main content -->
+    <!-- gambar buat loading -->
+    <img id="load" class="display">
+    <img id="img" style="display:none">
+    <section class="content">
+        <div class="card card-primary card-outline">
+            <div class="card-body">
+                    <div class="tab-content" id="custom-content-above-tabContent">
+                        <div class="tab-pane fade show active" id="custom-content-above-mp" role="tabpanel"
+                             aria-labelledby="custom-content-above-mp-tab">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card card-primary">
+                                        <div class="card-header ">
+                                            <h3 class="card-title">Table Data Master Schedule</h3>
+                                        </div>
+                                    <div class="table-responsive card-body">
+                                            <table id="data_master_plan" class="table table-bordered table-striped">
+                                                <thead align="center">
+                                                    <th>Train</th>
+                                                    <th>Station</th>
+                                                    <th>No Peron</th>
+                                                    <th>Name Route</th>
+                                                    <th>Type Schedule</th>
+                                                    <th>Arrival</th>
+                                                    <th>Depart</th>
+                                                    <th>Dwelling Time (S)</th>
+                                                    <th>Action</th>
+                                                </thead>
+                                                <tbody align="center">
+                                                <tr th:each="masterPlan : ${masterPlans}">
+                                                    <td th:text="${masterPlan.train?.noka}"></td>
+                                                    <td th:text="${masterPlan.peronFrom?.station.nameStation}"></td>
+                                                    <td th:text="${masterPlan.peronFrom?.noPeron}"></td>
+                                                    <td th:text="${masterPlan.ruteRole?.nameRoute}"></td>
+                                                    <td th:text="${masterPlan.TypeMasterPlan?.nameTypeMasterPlan}"></td>
+                                                    <td th:text="${masterPlan.arrival}"></td>
+                                                    <td th:text="${masterPlan.depart}"></td>
+                                                    <td th:text="${masterPlan.dwellingTime}"></td>
+                                                    <td>
+                                                        <a class="btn btn-info loading_modify"
+                                                           th:href="@{/schedule/masterschedule/view-modify-schedule-rute/{id1}/{id2}(id1=${masterPlan.train?.idTrain},id2=${masterPlan.typeMasterPlan?.idTypeMasterPlan})}">
+                                                            <i class="fa fa-edit">
+                                                            </i> Modify</a>
+                                                        <a class="btn btn-danger deleteMasterPlanById loading_delete" href="#"
+                                                           th:attr="idMasterPlan=${masterPlan.train?.idTrain}"><i class="fa fa-trash"></i> Delete All</a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                </tfoot>
+                                            </table>
+                                            <br>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <a class="form-group">
+
+                                                        <button type="button" class="btn btn-primary li-modal-add loading_add"
+                                                                th:href="@{/schedule/masterschedule/view-add-data-schedule/}"
+                                                                data-target="#modalAddMasterSchedule"
+                                                                style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-plus-circle"></i> Add Data</button>
+
+                                                    </a>
+                                                    <a class="form-group">
+                                                        <button type="button" class="btn btn-primary li-modal-combine loadingCombine" data-toggle="modal"
+                                                                th:href="@{/schedule/masterschedule/view-combine-schedule/}"
+                                                                data-target="#modalCombineSchedule"
+                                                                style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-plus-square"></i> Combine Schedule</button>
+                                                    </a>
+                                                    <a class="form-group">
+                                                        <button type="button" class="btn btn-secondary li-modal-import loadingImport" data-toggle="modal"
+                                                                th:href="@{/schedule/masterschedule/view-import-schedule/}"
+                                                                data-target="#modalImportData"
+                                                                style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-file-import"></i> Import Data .CSV</button>
+                                                    </a>
+
+                                                    <a class="form-group">
+                                                        <button type="button" class="btn btn-secondary li-modal-export loadingExport"
+                                                                th:href="@{/schedule/masterschedule/view-export-schedule/}"
+                                                                data-target="#modalExportData"
+                                                                style="padding-left: 30px; padding-right: 30px;"><i class="fa fa-file-export"></i> Export Data .CSV</button>
+                                                    </a>
+
+
+                                                    <a href="#" type="submit" class="btn btn-danger loading_delete_all deleteAllMasterPlan"><i class="fa fa-trash-alt"></i> Delete All Master Schedule</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card card-primary">
+                                        <div class="card-header ">
+                                            <h3 class="card-title">Conflict Master Schedule</h3>
+                                        </div>
+                                        <div class="table-responsive card-body">
+                                            <table id="data_master_conflict" class="table table-bordered table-striped">
+                                                <thead align="center">
+                                                <th>Train Number A</th>
+                                                <th>Train Number B</th>
+                                                <th>No Peron</th>
+                                                <th>Station</th>
+                                                <th>Arrive Time A</th>
+                                                <th>Arrive Time B</th>
+                                                <th>Depart Time A</th>
+                                                <th>Depart Time B</th>
+                                                <th>Line A</th>
+                                                <th>Line B</th>
+                                                <th>Schedule A</th>
+                                                <th>Schedule B</th>
+                                                </thead>
+                                                <tbody align="center">
+
+                                                </tbody>
+                                                <tfoot>
+                                                </tfoot>
+                                            </table>
+                                            <br>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                    <a class="form-group">
+                                                        <label>Type Schedule :</label>
+                                                        <select class="selectpicker"
+                                                                name="idTypeMasterPlan"
+                                                                data-title="Type Schedule"
+                                                                data-live-search="true"
+                                                                id="idTypeMasterPlan" placeholder="Type Schedule" style="margin-left: 10px;" href="#" >
+                                                            <option th:each="type : ${typeMasterPlans}"
+                                                                    th:value="${type.idTypeMasterPlan}"
+                                                                    th:text="${type.nameTypeMasterPlan}"></option>
+
+                                                        </select>
+                                                        <button type="button"
+                                                                class="btn btn-primary checkConflict">
+                                                            <i class="fa fa-check-circle"></i> | Check Conflict Master Schedule
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- this modal for data master schedule -->
+<div id="modalAddMasterSchedule" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- this modal for data master schedule -->
+<div id="modalCombineSchedule" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- this modal for Import Data master schedule -->
+<div id="modalImportData" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<!-- this modal for Export Data master schedule -->
+<div id="modalExportData" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- this modal for Modify schedule -->
+<div id="modalModifySchedule" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<!-- /. content-wrapper -->
+<!-- footer -->
+<footer th:replace="fragments/footer :: footer">
+    ini footer
+</footer>
+<!-- /.footer -->
+</body>
+</html>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/sparkline.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/jquery.knob.min.js}"></script>
+<script th:src="@{/resources/js/moment.min.js}"></script>
+<script th:src="@{/resources/js/daterangepicker.js}"></script>
+<script th:src="@{/resources/js/tempusdominus-bootstrap-4.min.js}"></script>
+<script th:src="@{/resources/js/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/resources/js/summernote-bs4.min.js}"></script>
+<script th:src="@{/resources/js/adminlte.min.js}"></script>
+<script th:src="@{/resources/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+<script th:src="@{/resources/js/toastr.min.js}"></script>
+
+<script th:src="@{/resources/js/schedule/table.js}"></script>
+<script th:src="@{/resources/js/schedule/popup.js}"></script>
+<script th:src="@{/resources/js/schedule/function.js}"></script>
+<script th:src="@{/resources/js/schedule/event.js}"></script>
+
+<script th:src="@{/resources/js/load.js}"></script>
+<script th:src="@{/resources/js/bootstrapselect/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/resources/icons/js/all.js}"></script>
+<script th:src="@{/resources/icons/js/all.min.js}"></script>
+

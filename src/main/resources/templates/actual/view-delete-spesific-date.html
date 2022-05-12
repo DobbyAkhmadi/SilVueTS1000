@@ -1,0 +1,33 @@
+
+<div class="card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Select Delete Spesific Date
+        </h3>
+    </div>
+</div>
+<div class="card-body">
+    <form class="needs-validation" action="#" th:action="@{/actual/delete-all-actual-spesific-date}"  th:object="${deleteActualSpesificCommand}" method="post" novalidate>
+       <!-- <input type="hidden" th:value="${getSpesificDate.actualCode}" th:name="actualCode" id="actualCode">-->
+        <label>Select Spesific Date</label>
+        <div class="col" >
+            <div class="form-group">
+                <input type="date"
+                        class="form-control" th:name="actualCode" id="actualCode" >
+                <!--th:value="${getSpesificDate.actualCode}"
+                th:name="actualCode"-->
+
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+

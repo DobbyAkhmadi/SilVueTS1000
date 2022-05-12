@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Silvue TS1000 Operator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <style>
+        #wrapper {
+            padding-top: 20px;
+            padding-left: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 22px 35px -16px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            margin: 35px auto;
+        }
+
+        #chart-line {
+            position: relative;
+            margin-top: -40px;
+        }
+    </style>
+
+    <script>
+        window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+        )
+        window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+        )
+        window.Promise ||
+        document.write(
+            '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+        )
+    </script>
+    <link href="../resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.css}" rel="stylesheet"
+          th:rel="stylesheet"/>
+    <link href="../resources/css/styles.css" th:href="@{/resources/css/styles.css}" rel="stylesheet"
+          th:rel="stylesheet"/>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="icon" type="image/png" href="/resources/icons/len.ico"/>
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/icheck-bootstrap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/jqvmap.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/adminlte.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/OverlayScrollbars.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/daterangepicker.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/summernote-bs4.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/dataTables.bootstrap4.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/sweetalert2.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/toastr.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/images.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/icons/css/all.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/css/loading.css}" rel="stylesheet" th:rel="stylesheet"/>
+    <link th:href="@{/resources/js/bootstrapselect/css/bootstrap-select.min.css}" rel="stylesheet" th:rel="stylesheet"/>
+</head>
+<body>
+<nav th:replace="fragments/navigation-bar :: navbar">
+    Ini Navbar
+</nav>
+<aside class="main-sidebar elevation-4 sidebar-light-primary">
+
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link navbar-primary">
+        <img src="../resources/images/AdminLTELogo.png" th:src="@{/resources/images/AdminLTELogo.png}"
+             class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text" style="color: white"> SiLVue TS1000</span>
+    </a>
+    <div th:replace="fragments/sidebar :: sidebar">
+        Ini menu samping
+    </div>
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Time Distance Graph</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /. content-header -->
+    <!-- Main content -->
+    <!-- gambar buat loading -->
+    <img id="load" class="display"></img>
+    <img id="img" style="display:none"></img>
+
+    <section class="content">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Time Distance Graph</h3>
+            </div>
+
+            <div id="wrapper" style="width: 100%; height: 800px;">
+                <div id="chart-line2"></div>
+            </div>
+        </div>
+
+        <div class="card card-primary">
+            <div class="card-body">
+                <div class="form-inline mb-2">
+                    <div class="form-group mx-sm-3">
+                        <label for="planschedule" class="small mr-2">Type base</label>
+                        <select id="planschedule" class="form-control form-control-sm small">
+                            <option value="master">Master Schedule</option>
+                            <option value="today">Today Schedule</option>
+                            <option value="actual">Actual Schedule</option>
+                        </select>
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        <label for="typeschedule" class="small mr-2">Schedule base</label>
+                        <select id="typeschedule" class="form-control form-control-sm small">
+                            <option th:each="typeMasterPlan : ${typeMasterPlans}"
+                                    th:value="${typeMasterPlan.idTypeMasterPlan}"
+                                    th:text="${typeMasterPlan.nameTypeMasterPlan}">{{$row}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        <label for="planbase" class="small mr-2">Plan base</label>
+                        <select id="planbase" class="form-control form-control-sm small">
+                            <option value="line">Line</option>
+                            <option value="rute">Rute</option>
+                        </select>
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        <label for="typeline" class="small mr-2">Line Type</label>
+                        <select id="typeline" class="form-control form-control-sm small">
+                            <option value="DAILY">DAILY</option>
+                            <option value="DAILY">DAILY</option>
+                        </select>
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        <label for="viewbase" class="small mr-2">View Base</label>
+                        <select id="viewbase" class="form-control form-control-sm small">
+                            <option value="schedule">Schedule</option>
+                            <option value="actualSchedule">Actual & Schedule</option>
+                        </select>
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        <label for="actualcode" class="small mr-2">Actual Code</label>
+                        <input type="date" step="1" class="form-control form-control-sm small"
+                               id="actualcode" name="actualcode" placeholder="Actual Code">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary apply" id="apply" name="apply" onclick="createChart();">
+                            <i class="fa fa-check-circle"></i> Apply
+                        </button>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group mx-sm-3">
+                        <label for="printperpages" class="small mr-2">Print (Hours per Pages)</label>
+                        <select id="printperpages" class="form-control form-control-sm small">
+                            <option value="one">1</option>
+                            <option value="four">4</option>
+                            <option value="eight">8</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary apply" id="print" name="apply">
+                            <i class="fa fa-check-circle"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+<!-- /. content-wrapper -->
+<!-- footer -->
+<footer th:replace="fragments/footer :: footer">
+    ini footer
+</footer>
+<!-- /.footer -->
+
+</body>
+</html>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/sparkline.js}"></script>
+<script th:src="@{/resources/js/Chart.min.js}"></script>
+<script th:src="@{/resources/js/jquery.knob.min.js}"></script>
+<script th:src="@{/resources/js/moment.min.js}"></script>
+<script th:src="@{/resources/js/daterangepicker.js}"></script>
+<script th:src="@{/resources/js/tempusdominus-bootstrap-4.min.js}"></script>
+<script th:src="@{/resources/js/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/resources/js/summernote-bs4.min.js}"></script>
+<script th:src="@{/resources/js/adminlte.min.js}"></script>
+<script th:src="@{/resources/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/resources/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/resources/js/sweetalert2.min.js}"></script>
+<script th:src="@{/resources/js/toastr.min.js}"></script>
+<script th:src="@{/resources/js/masterplan/conflict.js}"></script>
+<script th:src="@{/resources/js/masterplan/gapeka.js}"></script>
+<script th:src="@{/resources/js/masterplan/line.js}"></script>
+<script th:src="@{/resources/js/masterplan/Department.js}"></script>
+<script th:src="@{/resources/js/masterplan/route.js}"></script>
+<script th:src="@{/resources/js/masterplan/station.js}"></script>
+<script th:src="@{/resources/js/load.js}"></script>
+<script th:src="@{/resources/js/bootstrapselect/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/resources/js/amcharts/core.js}"></script>
+<script th:src="@{/resources/js/amcharts/charts.js}"></script>
+<script th:src="@{/resources/js/amcharts/themes/animated.js}"></script>
+<script>
+    am4core.useTheme(am4themes_animated);
+    var chartReg = {};
+
+
+    function createSeries(chart, field, name, data) {
+
+        var series = chart.series.push(new am4charts.LineSeries());
+        series.dataFields.valueY = field;
+        series.dataFields.dateX = "date";
+        series.name = name;
+        series.strokeWidth = 2;
+        series.data = data;
+
+
+        var bullet = series.bullets.push(new am4charts.LabelBullet());
+        bullet.label.text = name;
+        bullet.label.fontSize = 8;
+
+        return series;
+    }
+
+    function createChart() {
+        $('#img').fadeIn();
+        var schedule = $("#planschedule").val();
+        var lineType = $("#typeline").val();
+        var typeSchedule = $("#typeschedule").val();
+        var planBase = $("#planbase").val();
+        var actualCode = $("#actualcode").val();
+        var url = '';
+
+        $("#chart-line2").height(1024);
+        $('#wrapper').height(1024);
+
+        if (schedule == 'master') {
+            if (planBase == 'line') {
+                url = "/api/v1/ts1000/gapeka_master_plan_line?typeMasterPlanId=" + typeSchedule + "&lineTypeId=" + lineType;
+            } else {
+                url = "/api/v1/ts1000/gapeka_master_plan_rute_role?typeMasterPlanId=" + typeSchedule + "&ruteRoleId=" + lineType;
+            }
+        } else if (schedule == 'today') {
+            if (planBase == 'line') {
+                url = "/api/v1/ts1000/gapeka_today_schedule_line?typeMasterPlanId=" + typeSchedule + "&lineId=" + lineType;
+            } else {
+                url = "/api/v1/ts1000/gapeka_today_schedule_rute?typeMasterPlanId=" + typeSchedule + "&ruteRoleId=" + lineType;
+            }
+        } else if (schedule == 'actual') {
+            url = "/api/v1/ts1000/gapeka_actual?typePlan=" + typeSchedule + "&ruteRole=" + lineType + "&actualCode=" + actualCode;
+        }
+
+        maybeDisposeChart("chart-line2");
+
+        chartReg["chart-line2"] = am4core.create("chart-line2", am4charts.XYChart);
+        var title = chartReg["chart-line2"].titles.create();
+
+        var dateAxis = chartReg["chart-line2"].xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.grid.template.location = 0.5;
+        dateAxis.renderer.labels.template.location = 0.5;
+        dateAxis.dateFormats.setKey("hour", "hh:mm");
+        dateAxis.periodChangeDateFormats.setKey("hour", "hh:mm");
+        dateAxis.renderer.minGridDistance = 20;
+        dateAxis.renderer.labels.template.fontSize = 7;
+
+        var valueAxis = chartReg["chart-line2"].yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.labels.template.fontSize = 7;
+        valueAxis.renderer.minGridDistance = 10;
+
+        $.get({
+            url: url,
+            success: function (data) {
+                title.text = data.title;
+                var scrollbarX = new am4core.Scrollbar();
+                var scrollbarY = new am4core.Scrollbar();
+                $.each(data.gapekaTrainDtos, function (k, v) {
+                    const dataSeries = [];
+                    $.each(v.gapekaDataDtos, function (kDataDtos, vDataDtos) {
+                        dataSeries.push({"date": vDataDtos.datePoint, "value": vDataDtos.stationPoint});
+                    });
+                    var series = createSeries(chartReg["chart-line2"], "value", v.trainName, dataSeries);
+                    // scrollbarX.series.push(series);
+                    // scrollbarY.series.push(series);
+                });
+
+                valueAxis.renderer.labels.template.adapter.add("text", (label, target) => {
+                    var yLabel = '';
+                    $.each(data.gapekaStationDtos, function (kStationDto, vStationDto) {
+                        if (target.dataItem && target.dataItem.values.value.value == vStationDto.stationPoint) {
+                            yLabel = vStationDto.stationName;
+                        }
+                    });
+                    return yLabel;
+                });
+
+                chartReg["chart-line2"].legend = new am4charts.Legend();
+                chartReg["chart-line2"].legend.maxHeight = 100;
+                chartReg["chart-line2"].legend.fontSize = 5;
+                chartReg["chart-line2"].legend.scrollable = true;
+                chartReg["chart-line2"].cursor = new am4charts.XYCursor();
+                chartReg["chart-line2"].scrollbarX = scrollbarX;
+                chartReg["chart-line2"].scrollbarY = scrollbarY;
+
+                // Set up export
+                chartReg["chart-line2"].exporting.menu = new am4core.ExportMenu();
+                chartReg["chart-line2"].exporting.adapter.add("data", function (dataExport, targetExport) {
+                    // Assemble data from series
+                    var data = [];
+                    chartReg["chart-line2"].series.each(function (series) {
+                        for (var i = 0; i < series.data.length; i++) {
+                            series.data[i].name = series.name;
+                            data.push(series.data[i]);
+                        }
+                    });
+                    return {data: data};
+                });
+                $('#img').fadeOut();
+            },
+            error: function() {
+                $('#img').fadeOut();
+            }
+        });
+
+    }
+
+    function maybeDisposeChart(chartdiv) {
+        if (chartReg[chartdiv]) {
+            chartReg[chartdiv].dispose();
+            delete chartReg[chartdiv];
+        }
+    }
+</script>
+<script th:src="@{/resources/icons/js/all.js}"></script>
+<script th:src="@{/resources/icons/js/all.min.js}"></script>

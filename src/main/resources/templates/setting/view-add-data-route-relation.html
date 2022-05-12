@@ -1,0 +1,99 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Add Route Relation
+        </h3>
+    </div>
+    <div class="modal-body">
+            <div class="form-group row col-12">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" href ="#" checked="checked" id="chkRoute" onclick="ShowHideDivRoute(this)" >
+                    <label for="chkRoute" class="custom-control-label">Automatic Route Name By Nemonic Train</label>
+                </div>
+                <hr>
+                <div id="dvRoute" style="display: none">
+                    <div class="row col-12">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label>Route List</label>
+                                <select class="selectpicker"
+                                        id="ruteRole"
+                                        th:name="idRuteRole"
+                                        data-title="Select Route"
+                                        data-live-search="true" >
+                                    <option th:each="rute : ${ruteDetailList}"
+                                            th:text="${rute.nameRoute}"
+                                            th:value="${rute.idRuteRole}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group row">
+                                <label>New Route</label>
+                                <input type="text" step="1" class="form-control" id="idNewRoute" placeholder="Add New Route" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label>Station</label>
+            <div class="form-group row col-12">
+                    <div class="col-sm-6">
+                        <select id="stationRoute"
+                                name="nameStation"
+                                th:name="idStation"
+                                class="selectpicker"
+                                data-title="Select Station"
+                                data-live-search="true" >
+                            <option th:each="station : ${Stations}"
+                                    th:text="${station.NameStation}"
+                                    th:value="${station.idStation}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="selectpicker form-control" name="loc_unit_rute" href="#" id="directionIdRoute" >
+                            <option value="Meter">M</option>
+                            <option value="Kilometer">KM</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="number" class="selectpicker form-control" name="station_loc_rute" id="locationRoute" placeholder="Loc" min="0" required="">
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" role="button" class="btn btn-primary " onclick="btnFunctionAddRoute()">+</a>
+                    </div>
+            </div>
+
+            <label>Detail List</label>
+            <table class="table" id="stationListAddRoute">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Station</th>
+                    <th scope="col">Meter/KiloMeter</th>
+                    <th scope="col">Location</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+            <div class="modal-footer">
+                <button type="submit" style="float: left;" class="btn btn-primary" onclick="sendArrayRoute()"><i class="fa fa-check-circle"></i> | Submit</button>
+            </div>
+    </div>
+</div>
+<script th:src="@{/resources/js/setting/event.js}"></script>
+<script>
+    // Initialize the select picker.
+    $('select[name=idStation]').selectpicker();
+    $('select[name=idRuteRole]').selectpicker();
+    $('select[name=loc_unit_rute]').selectpicker();
+    $('select[name=station_loc_rute]').selectpicker();
+</script>

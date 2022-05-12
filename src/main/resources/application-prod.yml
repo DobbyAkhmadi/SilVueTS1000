@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+    show-sql: false
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/TS1000?user=ts1000&password=##TS1000123##

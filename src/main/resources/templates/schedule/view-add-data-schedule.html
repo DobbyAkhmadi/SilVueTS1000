@@ -1,0 +1,136 @@
+<div class="card card-primary">
+    <div class="card-header ">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>X</span>
+        </button>
+        <h3 class="card-title">
+            <i class="fas fa-edit"></i>
+            Add Data Schedule
+        </h3>
+    </div>
+    <div class="card-body">
+        <form class="needs-validation" action="#" th:action="@{/schedule/masterschedule/add-command-master-plan}" method="post"
+                      th:object="${AddMasterPlanCommand}" novalidate>
+            <div class="row col-12">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label>Train</label>
+                                <select th:name="idTrain" id="JSAddTrain"
+                                        class="selectpicker"
+                                        data-title="Select Train"
+                                        data-live-search="true">
+                                    <option th:each="train : ${trains}"
+                                            th:text="${train.noka}"
+                                            th:value="${train.idTrain}"
+                                            data-tickIcon="fa-check"
+                                            data-icon="fa fa-train"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                                <div class="form-group row">
+                                    <label>New Train</label>
+                                    <input th:name="idTrainAdd" type="text" step="1" class="form-control" id="New" placeholder="Add New Train" required>
+                                </div>
+                        </div>
+                    </div>
+
+            <label>Route</label>
+            <div class="form-group row col-12">
+                            <select th:name="idRuteRole" id="JSAddRuteRole"
+                                    class="selectpicker" data-width="100%"
+                                    data-title="Select Route"
+                                    data-live-search="true">
+                                <option th:each="ruteRole : ${routeRoles}"
+                                        th:text="${ruteRole.nameRoute}"
+                                        th:value="${ruteRole.idRuteRole}"
+                                        th:data="${ruteRole.nameRoute}"
+                                        data-tickIcon="fa-check"
+                                        data-icon="fa fa-route">
+                                </option>
+                            </select>
+                        <div class="invalid-feedback">
+                            Name Of Routes Cannot Be Empty
+                        </div>
+                    </div>
+
+            <label>Type Schedule</label>
+            <div class="form-group row col-12">
+                        <select class="selectpicker" name="idTypeMasterPlan"
+                                th:name="idTypeMasterPlan" data-width="100%"
+                                id="JSAddTypeMasterPlan"
+                                data-title="Select Type Schedule"
+                                data-live-search="true"
+                                required>
+                            <option th:each="typeMasterPlan : ${typeMasterPlans}"
+                                    th:value="${typeMasterPlan.idTypeMasterPlan}"
+                                    th:text="${typeMasterPlan.nameTypeMasterPlan}"
+                                    data-tickIcon="fa-check"
+                                    data-icon="fa fa-calendar-check">...</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Schedule Type Cannot Be Empty
+                        </div>
+                    </div>
+
+            <label>Station</label>
+            <div class="form-group row col-12">
+                        <select class="selectpicker"
+                                id='JSAddStation' data-width="75%"
+                                th:name="idStation"
+                                name='nameStation'
+                                data-title="Select Station"
+                                data-live-search="true">
+                        </select>
+                    </div>
+
+            <label>Platform</label>
+            <div class="form-group row col-12">
+                        <select class="selectpicker"
+                                id='FromAddPeron'
+                                th:name="idPeron"
+                                name='noPeron'
+                                data-title="Select Peron"
+                                data-live-search="true"
+                                required>
+                        </select>
+                    </div>
+
+            <div class="form-group row col-12">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label>Arrival</label>
+                                <input th:name="arrival" type="time" step="1" class="form-control" id="arrival" name="arrivalDate" placeholder="Depart Time" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group row ">
+                                <label>Depart</label>
+                                <input th:name="depart" type="time" step="1" class="form-control" id="depart" name="departDate" placeholder="Arriving Time" required>
+                            </div>
+                        </div>
+                    </div>
+
+            <div class="form-group row col-12">
+                        <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="idFlagMasterPlan"
+                                   th:name="flagMasterPlan"
+                                   th:onclick="ValidateCheckBoxDetailTrain()">
+                            <label for="idFlagMasterPlan">Next Day</label>
+                        </div>
+                    </div>
+            <div class="form-group row col-12">
+                <button type="submit" style="float: left;" class="btn btn-primary"><i class="fa fa-check-circle"></i> | Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/resources/js/schedule/function.js}"></script>
+<script>
+    // Initialize the select picker.
+    $('select[name=idTrain]').selectpicker();
+    $('select[name=idStation]').selectpicker();
+    $('select[name=idPeron]').selectpicker();
+    $('select[name=idRuteRole]').selectpicker();
+    $('select[name=idTypeMasterPlan]').selectpicker();
+</script>

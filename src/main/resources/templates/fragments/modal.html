@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="modal fade" id="Modaladdrutelist" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" th:fragment="frgModalAddRouteList">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/ruterelation/insert" method="post">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label id="label_name">Route Name</label>
+                        <input type="text" class="form-control @error('rute_name') is-invalid @enderror" value="{{ old('rute_name') }}" id="rute_name" name="rute_name" placeholder="Rute Name" required>
+                        @error('rute_name')
+                        <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+              </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label>Station Name</label>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <select class="btn bg-light text-black form-control" name="station_input_rute" id="station_input_rute" placeholder="Station Name">
+                                    @foreach($data_station as $ds)
+                                    <option value="{{$ds->NAMESTATION}}">
+                                        {{ $ds->NAMESTATION }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <select class="btn bg-light text-black form-control" name="loc_unit_rute" id="loc_unit_rute" placeholder="Unit">
+                                    <option value="meter">M</option>
+                                    <option value="kilometer">KM</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" name="station_loc_rute" id="station_loc_rute" placeholder="Location" min="0" step="0.001">
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" role="button" class="btn btn-primary add_station_data_rute">Add</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div name="station_list_rute" id="station_list_rute" class="form-station_list station_name_list">
+                        <label>Station List</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary loading_line_add">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" th:fragment="frgModalAdd">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/submit/insert" method="post">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label>Train</label>
+                        <input type="text" class="form-control" id="train" name="train" placeholder="Name Train" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Station</label>
+                                <select id="sel_station_from" name="sel_station_from" class="form-control" required>
+                                    <option value='' selected disabled>-- Select station --</option>
+                                    @foreach($stationData['data'] as $row)
+                                    <option value='{{ $row->IDSTATION }}'>{{ $row->NAMESTATION }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>No Platform</label>
+                                <select id="sel_peron_from" name="sel_peron_from" class="form-control" required>
+                                    <option value='' selected disabled>-- Select peron --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Route</label>
+                        <select class="form-control" id="line" name="line" placeholder="Type Line" required>
+                            <option value='' selected disabled>-- Select Route --</option>
+                            @foreach($data_rl as $drl)
+                            <option value="{{ $drl->NAMEROUTE }}">{{ $drl->NAMEROUTE }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Type Schedule</label>
+                        <select class="form-control" id="typetrain" name="typetrain" placeholder="Type Schedule" required>
+                            @foreach($data_tmp as $dtmp)
+                            <option value="{{$dtmp->NAMETYPEMASTERPLAN}}">{{$dtmp->NAMETYPEMASTERPLAN}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Arrival</label>
+                                <input type="time" step="1" class="form-control" id="arrival" name="arrival" placeholder="Depart Time" required>
+                            </div>
+                        </div>
+
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Depart</label>
+                                <input type="time" step="1" class="form-control" id="depart" name="depart" placeholder="Arriving Time" required>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Next Day</label>
+                                <input type="checkbox" class="form-control" id="flagmaster" name="flagmaster" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary loading_submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
